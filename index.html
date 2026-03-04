@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DateFlo — Date Planning, Done For You</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --pink-light: #ffd6e0;
+      --pink-medium: #ff8fab;
+      --rose: #e05780;
+      --rose-deep: #c44569;
+      --white: #ffffff;
+      --text-dark: #2d1f2d;
+      --text-muted: #6b5a6b;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: linear-gradient(135deg, #fff0f3 0%, #ffe4ec 30%, #ffd6e0 60%, #ffc0cb 100%);
+      color: var(--text-dark);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Floating Hearts Background */
+    .floating-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 1.5rem;
+      opacity: 0.15;
+      animation: floatHeart linear infinite;
+      color: var(--rose);
+    }
+
+    @keyframes floatHeart {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.15;
+      }
+      90% {
+        opacity: 0.15;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Main Container */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 30px 20px 60px;
+    }
+
+    /* Logo */
+    .logo {
+      text-align: center;
+      padding: 20px 0 40px;
+    }
+
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--rose) 0%, var(--rose-deep) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-tagline {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 30px 0 50px;
+    }
+
+    .hero-emoji {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      display: inline-block;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: var(--text-dark);
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 450px;
+      margin: 0 auto;
+    }
+
+    /* CTA Button */
+    .cta-section {
+      text-align: center;
+      margin: 30px 0 50px;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--rose) 0%, var(--rose-deep) 100%);
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 16px 40px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 30px rgba(224, 87, 128, 0.35);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(224, 87, 128, 0.45);
+    }
+
+    .cta-price {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin-top: 12px;
+      color: var(--text-muted);
+    }
+
+    /* How It Works Section */
+    .how-it-works {
+      margin: 50px 0;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 30px;
+      color: var(--text-dark);
+    }
+
+    .steps-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .step-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 20px;
+      padding: 25px;
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      transition: all 0.3s ease;
+    }
+
+    .step-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(224, 87, 128, 0.15);
+    }
+
+    .step-number {
+      background: linear-gradient(135deg, var(--rose) 0%, var(--rose-deep) 100%);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .step-content h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-dark);
+    }
+
+    .step-content p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Trust Section */
+    .trust-section {
+      text-align: center;
+      margin: 60px 0;
+      padding: 30px 20px;
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .trust-emoji {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    .trust-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+
+    .trust-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 40px 0 20px;
+      border-top: 1px solid rgba(224, 87, 128, 0.15);
+      margin-top: 40px;
+    }
+
+    .footer-tagline {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--rose-deep);
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      margin-bottom: 20px;
+    }
+
+    .footer-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .footer-link:hover {
+      color: var(--rose);
+    }
+
+    .footer-copyright {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      opacity: 0.7;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px 16px 50px;
+      }
+
+      .logo-text {
+        font-size: 1.9rem;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .hero-subtitle {
+        font-size: 0.95rem;
+      }
+
+      .cta-button {
+        padding: 14px 32px;
+        font-size: 1rem;
+      }
+
+      .step-card {
+        padding: 20px;
+      }
+    }
+
+    /* Desktop enhancements */
+    @media (min-width: 768px) {
+      .container {
+        max-width: 700px;
+        padding: 40px 30px 80px;
+      }
+
+      .logo-text {
+        font-size: 2.5rem;
+      }
+
+      .hero-title {
+        font-size: 3rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1.15rem;
+      }
+
+      .steps-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .step-card {
+        flex: 1;
+        min-width: 280px;
+        max-width: 320px;
+      }
+    }
+
+    /* Smooth scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating Hearts Background -->
+  <div class="floating-hearts" id="hearts"></div>
+
+  <div class="container">
+    <!-- Logo -->
+    <div class="logo">
+      <div class="logo-text">DateFlo</div>
+      <div class="logo-tagline">✨ Romantic dates, effortlessly planned</div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-emoji">💘</div>
+      <h1 class="hero-title">Date planning,<br>done for you</h1>
+      <p class="hero-subtitle">
+        For $5, we hop on a quick call, get to know you, and build a date plan you'll actually be excited about. No more scrambling. No more boring ideas. Just show up and enjoy.
+      </p>
+    </section>
+
+    <!-- CTA Section -->
+    <div class="cta-section">
+      <a href="https://forms.gle/dateflo" class="cta-button" target="_blank">
+        <span>Get Your Date Plan</span>
+        <span>→</span>
+      </a>
+      <p class="cta-price">Only $5 • Delivered within 24 hours</p>
+    </div>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+      <h2 class="section-title">How It Works</h2>
+      <div class="steps-container">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Sign up & Venmo $5</h3>
+            <p>Fill out our quick form and send payment. Takes less than 2 minutes.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Quick 15-20 min call</h3>
+            <p>We'll hop on a call to learn about your style, budget, and what makes you both tick.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Get your date plan</h3>
+            <p>Receive a beautifully designed, personalized date plan within 24 hours.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Section -->
+    <section class="trust-section">
+      <div class="trust-emoji">🎓</div>
+      <h3 class="trust-title">Hosted by SDSU students,<br>for SDSU students</h3>
+      <p class="trust-subtitle">We know the best spots on and around campus. Let us do the research so you can focus on the romance.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="footer-tagline">"Let us make date planning feel fun."</p>
+      <div class="footer-links">
+        <a href="https://instagram.com/dateflo" class="footer-link" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+          <span>@dateflo</span>
+        </a>
+        <a href="mailto:hello@dateflo.com" class="footer-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          <span>Contact</span>
+        </a>
+      </div>
+      <p class="footer-copyright">© 2026 DateFlo. Made with 💕 at SDSU</p>
+    </footer>
+  </div>
+
+  <script>
+    // Generate floating hearts
+    function createHearts() {
+      const container = document.getElementById('hearts');
+      const heartSymbols = ['♥', '♡', '❤', '💕', '💗'];
+      const numHearts = 15;
+
+      for (let i = 0; i < numHearts; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+        heart.style.animationDuration = (Math.random() * 10 + 15) + 's';
+        heart.style.animationDelay = (Math.random() * 10) + 's';
+        container.appendChild(heart);
+      }
+    }
+
+    // Initialize
+    createHearts();
+  </script>
+</body>
+</html>
